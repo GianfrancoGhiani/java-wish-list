@@ -32,6 +32,42 @@ public class Main {
             }
         }while (!quit);
         Collections.sort(wishes);
-        System.out.println(wishes);
+
+        System.out.println("What's your name?");
+        String name = input.nextLine();
+        System.out.println("Where are you living?");
+        String address = input.nextLine();
+        ChristmasLetter letter = null;
+        try{
+             letter = new ChristmasLetter(name, address, wishes);
+        }catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
+        if (letter != null){
+            try{
+                letter.send();
+            }catch (IllegalStateException e){
+                System.out.println(e.getMessage());
+            }catch (IllegalArgumentException e){
+                System.out.println(e.getMessage());
+                System.out.println("Remove something please");
+                do{
+                    System.out.println("wich one do you want to remove?");
+                    String removingObj = input.nextLine();
+                    if(wishes.contains(removingObj)){
+                      wishes.remove(wishes.indexOf(removingObj));
+                    }else {
+                        System.out.println("retry with an other wish");
+                        System.out.println("This is your list"+ wishes);
+                    }
+                }while (wishes.size() != 5);
+                letter.send();
+            }
+        }
+
+
+
+
+        input.close();
     }
 }
